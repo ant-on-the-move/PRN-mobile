@@ -1,9 +1,7 @@
 import { HomeHeader } from 'app/components/HomeHeader'
-import { YStack, Popover, Button, Adapt, XStack, Text } from 'tamagui'
-import { Plus } from '@tamagui/lucide-icons'
-import Targets from './targets'
-import Requests from './requests'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { YStack, XStack, Text, Button } from 'tamagui'
+import Targets from '../targets'
+import Requests from '../requests'
 import { StyleSheet } from 'react-native'
 import { useState } from 'react'
 
@@ -36,50 +34,6 @@ export default function Home() {
 
             {/* Tab Content */}
             {activeTab === 'targets' ? <Targets /> : <Requests />}
-
-            <Popover size="$5" allowFlip>
-                <Popover.Trigger asChild>
-                    <Button
-                        icon={Plus}
-                        circular
-                        size="$6"
-                        style={styles.fab}
-                    />
-                </Popover.Trigger>
-
-                <Adapt when="sm" platform="touch">
-                    <Popover.Sheet modal dismissOnSnapToBottom>
-                        <Popover.Sheet.Frame p="$4">
-                            <Adapt.Contents />
-                        </Popover.Sheet.Frame>
-                        <Popover.Sheet.Handle />
-                    </Popover.Sheet>
-                </Adapt>
-
-                <Popover.Content
-                    borderWidth={1}
-                    borderColor="$borderColor"
-                    enterStyle={{ y: -10, opacity: 0 }}
-                    exitStyle={{ y: -10, opacity: 0 }}
-                    elevate
-                    animation={[
-                        'quick',
-                        {
-                            opacity: {
-                                overshootClamping: true,
-                            },
-                        },
-                    ]}
-                >
-                    <Popover.Arrow borderWidth={1} borderColor="$borderColor" />
-
-                    <YStack space="$3">
-                        <Button>Create Request</Button>
-                        <Button>Invite Target</Button>
-                        <Button>Add New Target</Button>
-                    </YStack>
-                </Popover.Content>
-            </Popover>
         </YStack>
     )
 }
@@ -116,4 +70,4 @@ const styles = StyleSheet.create({
         color: '#0077FF',
         fontWeight: '600',
     }
-})
+}) 

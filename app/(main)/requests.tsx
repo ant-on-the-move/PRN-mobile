@@ -5,6 +5,7 @@ export default function Requests() {
     return (
         <YStack style={styles.container}>
             <Text>Requests will be shown here.</Text>
+            
         </YStack>
     )
 }

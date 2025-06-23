@@ -74,9 +74,7 @@ export default function DrawerLayout() {
                 drawerPosition: 'left',
             }}
         >
-            <Drawer.Screen name="home" options={{ title: 'Home' }} />
-            <Drawer.Screen name="targets" options={{ title: 'Targets' }} />
-            <Drawer.Screen name="requests" options={{ title: 'Requests' }} />
+            <Drawer.Screen name="(tabs)" options={{ headerShown: false, title: 'Home' }} />
         </Drawer>
     )
 }
