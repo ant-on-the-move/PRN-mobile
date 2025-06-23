@@ -14,7 +14,7 @@ export default function AddScreen() {
     }
   }, [router])
   return (
-    <YStack flex={1} alignItems="center" justifyContent="center">
+    <YStack style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Add Screen</Text>
     </YStack>
   )
