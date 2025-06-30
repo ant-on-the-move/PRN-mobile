@@ -1,12 +1,10 @@
-import { Avatar, Button, Separator, Text, XStack, YStack } from 'tamagui'
+import { Avatar, Button, Image, Separator, Text, XStack, YStack } from 'tamagui'
 import { Bookmark, MoreHorizontal, MoreVertical, Share } from '@tamagui/lucide-icons'
 import { StyleSheet } from 'react-native'
-import { useRouter } from 'expo-router'
 
 const MOCK_TAGS = ['Actor', 'Model', 'Theater']
 
-export function TargetCard() {
-    const router = useRouter()
+export function RequestCard() {
     return (
         <YStack style={styles.cardContainer}>
             <XStack style={styles.headerContainer}>
@@ -36,6 +34,7 @@ export function TargetCard() {
                         ))}
                     </XStack>
                 </XStack>
+                <Image source={require("../../assets/images/image 1.png")} style={styles.cardImage}/>
                 <Text style={styles.descriptionText}>
                     I have known Emilia Clarke from days of game of thrones from 2010 to 2018. He played john snow in game of thrones which was produced by HBO studios. great guy good to work with
                 </Text>
@@ -44,7 +43,7 @@ export function TargetCard() {
                         <Text fontSize="$5" fontWeight="bold">$12k</Text>
                         <Text color="#616B80" fontSize="$2">Video Call · 2d ago</Text>
                     </XStack>
-                    <Button onPress={() => router.push('/purpose') } size="$3" bg="#0077FF" color="white">Request</Button>
+                    <Button size="$3" bg="#0077FF" color="white">Invite</Button>
                 </XStack>
             </YStack>
         </YStack>
@@ -106,5 +105,11 @@ const styles = StyleSheet.create({
         gap: 15,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    cardImage: {
+        width: 203,
+        height: 147,
+        borderRadius: 8,
+        marginBottom: 8
     }
 }) 
