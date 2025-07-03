@@ -3,8 +3,10 @@ import { Menu, Search } from '@tamagui/lucide-icons'
 import { useNavigation } from 'expo-router'
 import { DrawerActions } from '@react-navigation/native'
 import { StyleSheet } from 'react-native'
+import { useRouter } from 'expo-router'
 
 export function HomeHeader() {
+    const router = useRouter()
     const navigation = useNavigation()
     const openDrawer = () => navigation.dispatch(DrawerActions.openDrawer())
 
@@ -20,7 +22,7 @@ export function HomeHeader() {
             <XStack style={styles.innerContainer}>
                 <Button icon={Search} chromeless />
                 <Button size="$3" bg="#0077FF" color="white">+ Create</Button>
-                <Avatar circular size="$3">
+                <Avatar circular size="$3" onPress={() => router.push('/profile')}>
                     <Avatar.Image src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
                     <Avatar.Fallback bg="blue" />
                 </Avatar>
