@@ -1,6 +1,7 @@
 import { Activity, Pencil, Users2 } from "@tamagui/lucide-icons";
 import { ProfileCard } from "app/components/ProfileCard";
 import { TargetCard } from "app/components/TargetCard";
+import { router } from "expo-router";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { View, Text, XStack, YStack, Avatar, Button, Paragraph } from "tamagui";
 
@@ -23,7 +24,7 @@ export default function Profile() {
                                 <Avatar.Image src='https://randomuser.me/api/portraits/men/10.jpg'/>
                             </Avatar>
                         </XStack>                        
-                        <TouchableOpacity onPress={() => {} }>
+                        <TouchableOpacity onPress={() => router.push('/edit-profile') }>
                         <XStack flex={1} style={styles.editProfileButton}>
                             <Text style={styles.editProfileButtonText}>Edit Profile</Text>
                             <Pencil size={12} color="#0077FF" />
