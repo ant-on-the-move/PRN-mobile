@@ -45,4 +45,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 12
     }
-}) 
+})
+
+export default HomeHeader 

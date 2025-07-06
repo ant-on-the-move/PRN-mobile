@@ -77,3 +77,5 @@ const styles = StyleSheet.create({
         color: '#232A38'
     },
 })
+
+export default StepperComponent

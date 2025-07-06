@@ -94,3 +94,5 @@ export function GoogleButtonComponent({ }) {
     )
 }
 
+export default PrimaryButtonComponent
+

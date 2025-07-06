@@ -112,4 +112,6 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginBottom: 8
     }
-}) 
+})
+
+export default RequestCard 

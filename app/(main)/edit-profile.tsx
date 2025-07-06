@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
-import { Avatar, Button, Checkbox, H4, Image, Input, Label, Select, Separator, Sheet, Stack, Text, TextArea, TextAreaFrame, XStack, YStack } from 'tamagui'
-import { ArrowLeft, FileInput, UploadCloud } from '@tamagui/lucide-icons'
+import { Avatar, Button, Image, Input, Text, TextArea, XStack, YStack } from 'tamagui'
+import { ArrowLeft, UploadCloud } from '@tamagui/lucide-icons'
 import * as ImagePicker from 'expo-image-picker'
-import { GoogleButtonComponent } from 'app/components/ButtonComponent'
 
 export default function EditProfileScreen() {
     const [imageUri, setImageUri] = useState<string | null>(null)

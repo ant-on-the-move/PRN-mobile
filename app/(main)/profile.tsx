@@ -69,8 +69,9 @@ export default function Profile() {
                         ))}
                     </XStack>
                     <YStack mt={10} gap={10}>
-                        <ProfileCard />
-                        <ProfileCard />
+                        {Array.from({ length: 10 }).map((_, index) => (
+                            <ProfileCard key={index} />
+                        ))}
                     </YStack>
                 </YStack>
             </YStack>

@@ -1,18 +1,23 @@
-import { Avatar, Button, Separator, Text, XStack, YStack } from 'tamagui'
-import { Bookmark, MoreHorizontal, MoreVertical, Share } from '@tamagui/lucide-icons'
+import { Adapt, Avatar, Button, Popover, PopoverProps, Separator, Text, XStack, YStack, AlertDialog } from 'tamagui'
+import { Bookmark, Info, MoreHorizontal, MoreVertical, Share } from '@tamagui/lucide-icons'
 import { StyleSheet } from 'react-native'
 import { useRouter } from 'expo-router'
+import { useState } from 'react'
 
 const MOCK_TAGS = ['Actor', 'Model', 'Theater']
+const MODAL_TAGS = ['Delete', 'Hide', 'Report Issue']
 
-export function ProfileCard() {
+export function ProfileCard({ shouldAdapt = true, ...props }: PopoverProps & { shouldAdapt?: boolean }) {
     const router = useRouter()
+    const [popoverOpen, setPopoverOpen] = useState(false)
+    const [dialogOpen, setDialogOpen] = useState(false)
     return (
+        <>
         <YStack style={styles.cardContainer}>
             <XStack style={styles.headerContainer}>
                 <XStack style={styles.avatarContainer}>
                     <Avatar circular size={32}>
-                        <Avatar.Image src="https://i.pravatar.cc/150?u=george" />
+                        <Avatar.Image src='https://randomuser.me/api/portraits/men/10.jpg' />
                     </Avatar>
                     <Text fontWeight="bold" fontSize="$4">George RR Martin</Text>
                 </XStack>
@@ -20,15 +25,46 @@ export function ProfileCard() {
                     <Text>⭐ 4.8 (5)</Text>
                     <Button size="$1" chromeless icon={<Share size="$1" />} style={{ padding: 0 }} />
                     <Button size="$1" chromeless icon={<Bookmark size="$1" />} style={{ padding: 0 }} />
-                    <Button size="$1" chromeless icon={<MoreVertical size="$1" />} style={{ padding: 0 }} />
+                    <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+                        <Popover.Trigger asChild>
+                            <Button size="$1" chromeless icon={<MoreVertical size="$1" />} style={{ padding: 0 }} />
+                        </Popover.Trigger>
+                        <Popover.Content
+                            style={{ minWidth: 140, padding: 0, borderRadius: 8, borderWidth: 1, borderColor: '#E5E5E5', backgroundColor: 'white', shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 8, marginRight: 24 }}
+                        >
+                            <YStack>
+                                <Button 
+                                    chromeless
+                                    style={{ justifyContent: 'flex-start', paddingVertical: 10, paddingHorizontal: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5E5', borderRadius: 0 }}
+                                    onPress={() => { setPopoverOpen(false); setDialogOpen(true); }}
+                                >
+                                    Delete
+                                </Button>
+                                <Button
+                                    chromeless
+                                    style={{ justifyContent: 'flex-start', paddingVertical: 10, paddingHorizontal: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5E5', borderRadius: 0 }}
+                                    onPress={() => { setPopoverOpen(false); /* handle hide */ }}
+                                >
+                                    Hide
+                                </Button>
+                                <Button
+                                    chromeless
+                                    style={{ justifyContent: 'flex-start', paddingVertical: 10, paddingHorizontal: 16, borderRadius: 0 }}
+                                    onPress={() => { setPopoverOpen(false); /* handle report */ }}
+                                >
+                                    Report Issue
+                                </Button>
+                            </YStack>
+                        </Popover.Content>
+                    </Popover>
                 </XStack>
             </XStack>
             <YStack style={styles.personContainer}>
                 <XStack style={styles.personHeader} mt={5}>
                     <XStack style={styles.tagsContainer}>
-                        {MOCK_TAGS.map(tag => (
+                        {/* {MOCK_TAGS.map(tag => (
                             <Button key={tag} size="$2" disabled>#{tag}</Button>
-                        ))}
+                        ))} */}
                     </XStack>
                 </XStack>
                 <Text style={styles.descriptionText}>
@@ -43,6 +79,42 @@ export function ProfileCard() {
                 </XStack>
             </YStack>
         </YStack>
+        <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <AlertDialog.Portal>
+                <AlertDialog.Overlay style={{ backgroundColor: 'rgba(0,0,0,0.2)' }} />
+                <AlertDialog.Content style={{ backgroundColor: 'white', borderRadius: 12, padding: 24, width: 340, maxWidth: '90%' }}>
+                    <AlertDialog.Title style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 12 }}>
+                        Are you sure you want to delete this target?
+                    </AlertDialog.Title>
+                    <XStack style={{ alignItems: 'center', gap: 12, marginBottom: 12 }} >
+                        <Avatar circular size={40}>
+                            <Avatar.Image src="https://i.pravatar.cc/150?u=emilia" />
+                        </Avatar>
+                        <YStack>
+                            <Text fontWeight="bold" fontSize={16}>Emilia Clarke</Text>
+                            <XStack gap={4} mt={2}>
+                                {/* {MODAL_TAGS.map(tag => (
+                                    <Button key={tag} size="$2" disabled>#{tag}</Button>
+                                ))} */}
+                            </XStack>
+                        </YStack>
+                    </XStack>
+                    <XStack gap={12} mt={8}>
+                        <AlertDialog.Action asChild key="delete">
+                            <Button bg="#F35B5B" color="white" flex={1} onPress={() => { setDialogOpen(false); /* handle delete confirm */ }}>
+                                Delete
+                            </Button>
+                        </AlertDialog.Action>
+                        <AlertDialog.Cancel asChild key="cancel">
+                            <Button bg="#E5E5E5" color="#0077FF" flex={1} onPress={() => setDialogOpen(false)}>
+                                Cancel
+                            </Button>
+                        </AlertDialog.Cancel>
+                    </XStack>
+                </AlertDialog.Content>
+            </AlertDialog.Portal>
+        </AlertDialog> 
+        </>
     )
 }
 
@@ -102,4 +174,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     }
-}) 
+})
+
+export default ProfileCard 
