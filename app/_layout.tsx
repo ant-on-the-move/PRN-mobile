@@ -10,6 +10,7 @@ import { Provider } from './Provider'
 import { useTheme } from 'tamagui'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AuthProvider } from './context/auth'
+import { CurrentToast } from './components/ToastComponent'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -66,6 +67,7 @@ function RootLayoutNav() {
             <Stack.Screen name="(main)" />
           </Stack>
         </SafeAreaView>
+        <CurrentToast />
       </ThemeProvider>
     </AuthProvider>
   )

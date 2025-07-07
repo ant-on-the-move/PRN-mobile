@@ -3,12 +3,14 @@ import { Bookmark, Info, MoreHorizontal, MoreVertical, Share } from '@tamagui/lu
 import { StyleSheet } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
+import { useToastController } from '@tamagui/toast'
 
 const MOCK_TAGS = ['Actor', 'Model', 'Theater']
 const MODAL_TAGS = ['Delete', 'Hide', 'Report Issue']
 
 export function ProfileCard({ shouldAdapt = true, ...props }: PopoverProps & { shouldAdapt?: boolean }) {
     const router = useRouter()
+    const toast = useToastController()
     const [popoverOpen, setPopoverOpen] = useState(false)
     const [dialogOpen, setDialogOpen] = useState(false)
     return (
@@ -36,21 +38,37 @@ export function ProfileCard({ shouldAdapt = true, ...props }: PopoverProps & { s
                                 <Button 
                                     chromeless
                                     style={{ justifyContent: 'flex-start', paddingVertical: 10, paddingHorizontal: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5E5', borderRadius: 0 }}
-                                    onPress={() => { setPopoverOpen(false); setDialogOpen(true); }}
+                                    onPress={() => { 
+                                        setPopoverOpen(false); 
+                                        setDialogOpen(true);                                         
+                                    }}
                                 >
                                     Delete
                                 </Button>
                                 <Button
                                     chromeless
                                     style={{ justifyContent: 'flex-start', paddingVertical: 10, paddingHorizontal: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5E5', borderRadius: 0 }}
-                                    onPress={() => { setPopoverOpen(false); /* handle hide */ }}
+                                    onPress={() => { 
+                                        setPopoverOpen(false);
+                                        toast.show('Target Hidden!', {
+                                            theme: 'green',
+                                            duration: 3000
+                                        })   
+                                    }}
                                 >
                                     Hide
                                 </Button>
                                 <Button
                                     chromeless
                                     style={{ justifyContent: 'flex-start', paddingVertical: 10, paddingHorizontal: 16, borderRadius: 0 }}
-                                    onPress={() => { setPopoverOpen(false); /* handle report */ }}
+                                    onPress={() => { 
+                                        setPopoverOpen(false);
+                                        toast.show('Issue Reported!', {
+                                            theme: 'red',
+                                            duration: 4000,
+                                            message: 'We will review this issue within 24 hours.'
+                                        });
+                                    }}
                                 >
                                     Report Issue
                                 </Button>
@@ -62,9 +80,9 @@ export function ProfileCard({ shouldAdapt = true, ...props }: PopoverProps & { s
             <YStack style={styles.personContainer}>
                 <XStack style={styles.personHeader} mt={5}>
                     <XStack style={styles.tagsContainer}>
-                        {/* {MOCK_TAGS.map(tag => (
+                        {MOCK_TAGS.map(tag => (
                             <Button key={tag} size="$2" disabled>#{tag}</Button>
-                        ))} */}
+                        ))}
                     </XStack>
                 </XStack>
                 <Text style={styles.descriptionText}>
@@ -93,15 +111,15 @@ export function ProfileCard({ shouldAdapt = true, ...props }: PopoverProps & { s
                         <YStack>
                             <Text fontWeight="bold" fontSize={16}>Emilia Clarke</Text>
                             <XStack gap={4} mt={2}>
-                                {/* {MODAL_TAGS.map(tag => (
+                                {MODAL_TAGS.map(tag => (
                                     <Button key={tag} size="$2" disabled>#{tag}</Button>
-                                ))} */}
+                                ))}
                             </XStack>
                         </YStack>
                     </XStack>
                     <XStack gap={12} mt={8}>
                         <AlertDialog.Action asChild key="delete">
-                            <Button bg="#F35B5B" color="white" flex={1} onPress={() => { setDialogOpen(false); /* handle delete confirm */ }}>
+                            <Button bg="#F35B5B" color="white" flex={1} onPress={() => { setDialogOpen(false); toast.show('Target Deleted!', { theme: 'red', duration: 3000 }) }}>
                                 Delete
                             </Button>
                         </AlertDialog.Action>
