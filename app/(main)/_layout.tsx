@@ -1,8 +1,9 @@
 import { Drawer } from 'expo-router/drawer'
 import { Text, YStack, XStack } from 'tamagui'
 import { LogOut, ChevronRight, Settings, HelpCircle, History, Bookmark, Send } from '@tamagui/lucide-icons'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import { useAuth } from 'app/context/auth'
+import { router } from 'expo-router'
 
 function CustomDrawerContent() {
     const { logout } = useAuth()
@@ -14,49 +15,61 @@ function CustomDrawerContent() {
 
             <YStack style={styles.menuContainer}>
                 <XStack style={styles.menuItem}>
-                    <XStack style={styles.menuItemContent}>
-                        <Send />
-                        <Text>Requests</Text>
-                    </XStack>
+                    <TouchableOpacity onPress={() => router.push('/(dashboard)/requests')}>
+                        <XStack style={styles.menuItemContent}>
+                            <Send />
+                            <Text>Requests</Text>
+                        </XStack>
+                    </TouchableOpacity>
                     <ChevronRight />
                 </XStack>
                 <XStack style={styles.menuItem}>
-                    <XStack style={styles.menuItemContent}>
-                        <Bookmark />
-                        <Text>Bookmarks</Text>
-                    </XStack>
+                    <TouchableOpacity onPress={() => router.push('/(dashboard)/bookmarks')}>
+                        <XStack style={styles.menuItemContent}>
+                            <Bookmark />
+                            <Text>Bookmarks</Text>
+                        </XStack>
+                    </TouchableOpacity>
                     <ChevronRight />
                 </XStack>
                 <XStack style={styles.menuItem}>
-                    <XStack style={styles.menuItemContent}>
-                        <History />
-                        <Text>Payment History</Text>
-                    </XStack>
+                    <TouchableOpacity onPress={() => router.push('/(dashboard)/payment-history')}>
+                        <XStack style={styles.menuItemContent}>
+                            <History />
+                            <Text>Payment History</Text>
+                        </XStack>
+                    </TouchableOpacity>
                     <ChevronRight />
                 </XStack>
                 <XStack style={styles.menuItem}>
-                    <XStack style={styles.menuItemContent}>
-                        <HelpCircle />
-                        <Text>Support</Text>
-                    </XStack>
+                    <TouchableOpacity onPress={() => router.push('/(dashboard)/support')}>
+                        <XStack style={styles.menuItemContent}>
+                            <HelpCircle />
+                            <Text>Support</Text>
+                        </XStack>
+                    </TouchableOpacity>
                     <ChevronRight />
                 </XStack>
                 <XStack style={styles.menuItem}>
-                    <XStack style={styles.menuItemContent}>
-                        <Settings />
-                        <Text>Settings</Text>
-                    </XStack>
+                    <TouchableOpacity onPress={() => router.push('/(main)/edit-profile')}>
+                        <XStack style={styles.menuItemContent}>
+                            <Settings />
+                            <Text>Settings</Text>
+                        </XStack>
+                    </TouchableOpacity>
                     <ChevronRight />
                 </XStack>
             </YStack>
 
-            <XStack
+            <TouchableOpacity
                 style={styles.logoutContainer}
                 onPress={() => logout()}
             >
-                <LogOut />
-                <Text>Log out</Text>
-            </XStack>
+                <XStack style={styles.logoutContent}>
+                    <LogOut />
+                    <Text>Log out</Text>
+                </XStack>
+            </TouchableOpacity>
         </YStack>
     )
 }
@@ -99,11 +112,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     logoutContainer: {
-        gap: 12,
-        alignItems: 'center',
         marginTop: 'auto',
         paddingVertical: 16,
         borderTopWidth: 1,
         borderTopColor: '#E5E5E5',
+    },
+    logoutContent: {
+        gap: 12,
+        alignItems: 'center',
     }
 }) 

@@ -65,6 +65,7 @@ function RootLayoutNav() {
           <Stack initialRouteName={unstable_settings.initialRouteName} screenOptions={{ headerShown: false }}>
             <Stack.Screen name="(auth)" />
             <Stack.Screen name="(main)" />
+            <Stack.Screen name="(dashboard)" />
           </Stack>
         </SafeAreaView>
         <CurrentToast />

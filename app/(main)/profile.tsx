@@ -1,4 +1,4 @@
-import { Activity, Pencil, Users2 } from "@tamagui/lucide-icons";
+import { Pencil, Users2 } from "@tamagui/lucide-icons";
 import { ProfileCard } from "app/components/ProfileCard";
 import { TargetCard } from "app/components/TargetCard";
 import { router } from "expo-router";
