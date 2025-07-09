@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 import { Input, YStack, InputProps } from 'tamagui'
 
-export const InputComponent = ({ placeholder }) => {
+export const InputComponent = ({ placeholder, ...props }: InputProps) => {
     return (
         <YStack>
             <Input

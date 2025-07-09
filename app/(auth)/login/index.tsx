@@ -1,20 +1,32 @@
 import { YStack, Text, Button, Image, Input, XStack } from 'tamagui'
 import { Link, useRouter } from 'expo-router'
-import { Activity } from '@tamagui/lucide-icons'
 import { StyleSheet } from 'react-native'
 import { InputComponent } from 'app/components/InputComponent'
 import { GoogleButtonComponent, PrimaryButtonComponent } from 'app/components/ButtonComponent'
-import { useAuth } from 'app/context/auth'
-import { useEffect } from 'react'
+import { useAuth } from 'app/hooks/useAuth'
+import { useAuthStore } from 'app/stores/authStore'
+import { useEffect, useState } from 'react'
+
 export default function LoginScreen() {
-    const { isAuthenticated, login } = useAuth()
+    const { isAuthenticated } = useAuthStore()
+    const { login, isLoggingIn } = useAuth()
     const router = useRouter()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
     useEffect(() => {
         if (isAuthenticated) {
-            router.replace('/home') // ✅ skip login if already logged in
+            router.replace('/(main)/targets')
         }
     }, [isAuthenticated])
+
+    const handleLogin = async () => {
+        if (!email || !password) {
+            return
+        }
+        
+        await login({ email, password })
+    }
 
     return (
         <YStack flex={1} p="$4" gap="$4" style={styles.container}>
@@ -31,21 +43,32 @@ export default function LoginScreen() {
                     </XStack>
                 </YStack>
                 <YStack style={styles.inputSection}>
-                    <InputComponent placeholder='Email' />
-                    <InputComponent placeholder='Password' />
+                    <InputComponent 
+                        placeholder='Email' 
+                        value={email}
+                        onChangeText={setEmail}
+                    />
+                    <InputComponent 
+                        placeholder='Password' 
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry
+                    />
                     <Text>Forgot Password</Text>
                 </YStack>
                 <YStack gap={16}>
-                    <PrimaryButtonComponent name="Log in" onPress={() => {
-                        login()
-                    }} />
+                    <PrimaryButtonComponent 
+                        name={isLoggingIn ? "Logging in..." : "Log in"} 
+                        onPress={handleLogin}
+                        disabled={isLoggingIn}
+                    />
                     <GoogleButtonComponent />
                 </YStack>
             </YStack>
 
             <XStack style={styles.bottomText}>
                 <Text>
-                    Don’t have an account? <Link href="../register" style={styles.linkText}>Create Account</Link>
+                    Don't have an account? <Link href="../register" style={styles.linkText}>Create Account</Link>
                 </Text>
             </XStack>
         </YStack>

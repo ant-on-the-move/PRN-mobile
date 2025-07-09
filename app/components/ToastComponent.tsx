@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native"
 import { Image, Text, XStack, YStack } from "tamagui"
 import { CheckCircle, AlertCircle, Info, XCircle } from '@tamagui/lucide-icons'
 
-export function CurrentToast() {
+export default function ToastComponent() {
     const currentToast = useToastState()
   
     if (!currentToast || currentToast.isHandledNatively) return null

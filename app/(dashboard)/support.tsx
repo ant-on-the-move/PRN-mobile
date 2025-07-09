@@ -1,5 +1,4 @@
 import { AtSign, Phone, X } from "@tamagui/lucide-icons";
-import { TargetCard } from "app/components/TargetCard";
 import { router } from "expo-router";
 import { StyleSheet } from "react-native";
 import { Button, Input, Paragraph, Separator, Text, TextArea, XStack, YStack } from "tamagui";

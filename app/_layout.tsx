@@ -7,10 +7,9 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
 import { Provider } from './Provider'
-import { useTheme } from 'tamagui'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { AuthProvider } from './context/auth'
-import { CurrentToast } from './components/ToastComponent'
+import ToastComponent from './components/ToastComponent'
+import { useAuthStore } from './stores/authStore'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -56,20 +55,22 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme()
-  const theme = useTheme()
+  const { isAuthenticated } = useAuthStore()
+  
   return (
-    <AuthProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-        <SafeAreaView style={{ flex: 1 }}>
-          <Stack initialRouteName={unstable_settings.initialRouteName} screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(auth)" />
-            <Stack.Screen name="(main)" />
-            <Stack.Screen name="(dashboard)" />
-          </Stack>
-        </SafeAreaView>
-        <CurrentToast />
-      </ThemeProvider>
-    </AuthProvider>
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+      <SafeAreaView style={{ flex: 1 }}>
+        <Stack 
+          initialRouteName={isAuthenticated ? '(main)' : '(auth)/login'} 
+          screenOptions={{ headerShown: false }}
+        >
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(main)" />
+          <Stack.Screen name="(dashboard)" />
+        </Stack>
+      </SafeAreaView>
+      <ToastComponent />
+    </ThemeProvider>
   )
 }
