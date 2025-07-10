@@ -3,7 +3,7 @@ import { useAuthStore } from '../stores/authStore'
 import { useToastController } from '@tamagui/toast'
 import { apiClient, API_ENDPOINTS } from '../services/api'
 import { mockApi } from '../services/mockApi'
-import { LoginRequest, RegisterRequest, AuthResponse, ApiResponse } from '../types'
+import { LoginRequest, RegisterRequest, AuthResponse, ApiResponse, VerifyEmailRequest } from '../types'
 import { useRouter } from 'expo-router'
 
 export const useAuth = () => {
@@ -25,7 +25,7 @@ export const useAuth = () => {
         theme: 'green',
         duration: 3000
       })
-      router.replace('/(main)/(tabs)/home')
+      router.replace('/(main)/(tabs)/home');
     },
     onError: (error: any) => {
       toast.show(error.message || 'Login failed', {
@@ -42,19 +42,24 @@ export const useAuth = () => {
   const registerMutation = useMutation({
     mutationFn: async (userData: RegisterRequest): Promise<AuthResponse> => {
       setLoading(true)
-      const response = await mockApi.register(userData)
+      const response = await apiClient.post(API_ENDPOINTS.REGISTER, userData)
       return response.data
     },
-    onSuccess: (data) => {
-      login(data)
-      toast.show('Registration successful!', {
+    onSuccess: (data, variables) => {
+      // login(data)
+      toast.show('Please verify your email', {
         theme: 'green',
         duration: 3000
       })
-      router.replace('/(main)/targets')
+      router.replace({ pathname: '/register/verify', params: { 
+          email: variables.email,
+          name: variables.name,
+          password: variables.password
+        } 
+      })
     },
     onError: (error: any) => {
-      toast.show(error.message || 'Registration failed', {
+      toast.show('User already exists. Please use login instead.', {
         theme: 'red',
         duration: 3000
       })
@@ -112,24 +117,51 @@ export const useAuth = () => {
     },
   })
 
+  // Verify email mutation
+  const verifyEmailMutation = useMutation({
+    mutationFn: async (userData: VerifyEmailRequest): Promise<AuthResponse> => {
+      setLoading(true)
+      const response = await apiClient.post(API_ENDPOINTS.VERIFY_EMAIL, userData)
+      return response.data
+    },
+    onSuccess: (data, variables) => {
+      // login(data)
+      toast.show('Registration successful!', {
+        theme: 'green',
+        duration: 3000
+      })
+      router.replace('/register/connect')
+    },
+    onError: (error: any) => {
+      toast.show('User already exists. Please use login instead.', {
+        theme: 'red',
+        duration: 3000
+      })
+    },
+    onSettled: () => {
+      setLoading(false)
+    },
+  })
+
   return {
     // Mutations
     login: loginMutation.mutate,
     register: registerMutation.mutate,
     logout: logoutMutation.mutate,
     forgotPassword: forgotPasswordMutation.mutate,
-    
+    verifyEmail: verifyEmailMutation.mutate,
     // Loading states
     isLoggingIn: loginMutation.isPending,
     isRegistering: registerMutation.isPending,
     isLoggingOut: logoutMutation.isPending,
     isSendingResetEmail: forgotPasswordMutation.isPending,
-    
+    isVerifyingEmail: verifyEmailMutation.isPending,
     // Error states
     loginError: loginMutation.error,
     registerError: registerMutation.error,
     logoutError: logoutMutation.error,
     forgotPasswordError: forgotPasswordMutation.error,
+    verifyEmailError: verifyEmailMutation.error,
   }
 } 
 

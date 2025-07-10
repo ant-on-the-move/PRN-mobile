@@ -131,10 +131,16 @@ export interface LoginRequest {
 }
 
 export interface RegisterRequest {
+  name: string
   email: string
   password: string
-  name: string
-  profession: string
+}
+
+export interface VerifyEmailRequest {
+  name: string  
+  email: string
+  password: string
+  otp: string
 }
 
 export interface AuthResponse {

@@ -50,10 +50,10 @@ const getAuthToken = (): string | null => {
 export const API_ENDPOINTS = {
   // Auth
   LOGIN: 'api/auth/login',
-  REGISTER: 'api/auth/register',
+  REGISTER: 'api/register/initiate',
+  VERIFY_EMAIL: 'api/register/verify',
   LOGOUT: 'api/auth/logout',
   REFRESH_TOKEN: 'api/auth/refresh',
-  VERIFY_EMAIL: 'api/auth/verify-email',
   FORGOT_PASSWORD: 'api/auth/forgot-password',
   RESET_PASSWORD: 'api/auth/reset-password',
   
