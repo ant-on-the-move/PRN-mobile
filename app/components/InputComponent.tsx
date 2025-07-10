@@ -7,6 +7,7 @@ export const InputComponent = ({ placeholder, ...props }: InputProps) => {
             <Input
                 style={styles.inputStyle}
                 placeholder={placeholder}
+                {...props}
             />
         </YStack>
     )

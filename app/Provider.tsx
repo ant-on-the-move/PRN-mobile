@@ -3,6 +3,7 @@ import { TamaguiProvider, type TamaguiProviderProps } from 'tamagui'
 import { Toast, ToastProvider, ToastViewport } from '@tamagui/toast'
 import { config } from '../tamagui.config'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { AuthProvider } from './context/auth'
 
 // Create a client
 const queryClient = new QueryClient({
@@ -34,6 +35,7 @@ export function Provider({ children, ...rest }: Omit<TamaguiProviderProps, 'conf
         defaultTheme={colorScheme === 'dark' ? 'dark' : 'light'}
         {...rest}
       >
+        <AuthProvider>
         <ToastProvider
           swipeDirection="horizontal"
           duration={6000}
@@ -47,6 +49,7 @@ export function Provider({ children, ...rest }: Omit<TamaguiProviderProps, 'conf
           {children}
           <ToastViewport top="$10" left={0} right={0} />
         </ToastProvider>
+        </AuthProvider>
       </TamaguiProvider>
     </QueryClientProvider>
   )

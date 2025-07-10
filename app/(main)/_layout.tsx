@@ -2,8 +2,8 @@ import { Drawer } from 'expo-router/drawer'
 import { Text, YStack, XStack } from 'tamagui'
 import { LogOut, ChevronRight, Settings, HelpCircle, History, Bookmark, Send } from '@tamagui/lucide-icons'
 import { StyleSheet, TouchableOpacity } from 'react-native'
-import { useAuth } from 'app/context/auth'
 import { router } from 'expo-router'
+import useAuth from 'app/hooks/useAuth'
 
 function CustomDrawerContent() {
     const { logout } = useAuth()

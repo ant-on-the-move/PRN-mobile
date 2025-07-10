@@ -13,6 +13,8 @@ export default function LoginScreen() {
     const router = useRouter()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [emailError, setEmailError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -21,10 +23,27 @@ export default function LoginScreen() {
     }, [isAuthenticated])
 
     const handleLogin = async () => {
-        if (!email || !password) {
-            return
+        let valid = true;
+        setEmailError('');
+        setPasswordError('');
+
+        // Email validation
+        if (!email) {
+            setEmailError('Email is required');
+            valid = false;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            setEmailError('Enter a valid email');
+            valid = false;
         }
-        
+
+        // Password validation
+        if (!password) {
+            setPasswordError('Password is required');
+            valid = false;
+        }
+
+        if (!valid) return;
+
         await login({ email, password })
     }
 
@@ -48,12 +67,14 @@ export default function LoginScreen() {
                         value={email}
                         onChangeText={setEmail}
                     />
+                    {emailError ? <Text style={{ color: 'red', fontSize: 12, marginTop: 2 }}>{emailError}</Text> : null}
                     <InputComponent 
                         placeholder='Password' 
                         value={password}
                         onChangeText={setPassword}
                         secureTextEntry
                     />
+                    {passwordError ? <Text style={{ color: 'red', fontSize: 12, marginTop: 2 }}>{passwordError}</Text> : null}
                     <Text>Forgot Password</Text>
                 </YStack>
                 <YStack gap={16}>

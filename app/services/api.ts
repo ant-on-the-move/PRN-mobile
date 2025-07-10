@@ -4,6 +4,7 @@ import axios from 'axios'
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'https://api.prn.com/v1'
 
 // Create axios instance
+console.log(API_BASE_URL)
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,
@@ -48,13 +49,13 @@ const getAuthToken = (): string | null => {
 // API Endpoints
 export const API_ENDPOINTS = {
   // Auth
-  LOGIN: '/auth/login',
-  REGISTER: '/auth/register',
-  LOGOUT: '/auth/logout',
-  REFRESH_TOKEN: '/auth/refresh',
-  VERIFY_EMAIL: '/auth/verify-email',
-  FORGOT_PASSWORD: '/auth/forgot-password',
-  RESET_PASSWORD: '/auth/reset-password',
+  LOGIN: 'api/auth/login',
+  REGISTER: 'api/auth/register',
+  LOGOUT: 'api/auth/logout',
+  REFRESH_TOKEN: 'api/auth/refresh',
+  VERIFY_EMAIL: 'api/auth/verify-email',
+  FORGOT_PASSWORD: 'api/auth/forgot-password',
+  RESET_PASSWORD: 'api/auth/reset-password',
   
   // User
   PROFILE: '/user/profile',

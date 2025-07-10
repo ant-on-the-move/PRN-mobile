@@ -16,7 +16,7 @@ export const useAuth = () => {
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginRequest): Promise<AuthResponse> => {
       setLoading(true)
-      const response = await mockApi.login(credentials)
+      const response = await apiClient.post(API_ENDPOINTS.LOGIN, credentials)
       return response.data
     },
     onSuccess: (data) => {
