@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuthStore } from '../stores/authStore'
-import { useUIStore } from '../stores/uiStore'
+import { useToastController } from '@tamagui/toast'
 import { apiClient, API_ENDPOINTS } from '../services/api'
 import { mockApi } from '../services/mockApi'
 import { LoginRequest, RegisterRequest, AuthResponse, ApiResponse } from '../types'
@@ -10,7 +10,7 @@ export const useAuth = () => {
   const queryClient = useQueryClient()
   const router = useRouter()
   const { login, logout, setLoading } = useAuthStore()
-  const { showToast } = useUIStore()
+  const toast = useToastController()
 
   // Login mutation
   const loginMutation = useMutation({
@@ -21,11 +21,17 @@ export const useAuth = () => {
     },
     onSuccess: (data) => {
       login(data)
-      showToast('Login successful!', 'success')
-      router.replace('/(main)/targets')
+      toast.show('Login successful!', {
+        theme: 'green',
+        duration: 3000
+      })
+      router.replace('/(main)/(tabs)/home')
     },
     onError: (error: any) => {
-      showToast(error.message || 'Login failed', 'error')
+      toast.show(error.message || 'Login failed', {
+        theme: 'red',
+        duration: 3000
+      })
     },
     onSettled: () => {
       setLoading(false)
@@ -41,11 +47,17 @@ export const useAuth = () => {
     },
     onSuccess: (data) => {
       login(data)
-      showToast('Registration successful!', 'success')
+      toast.show('Registration successful!', {
+        theme: 'green',
+        duration: 3000
+      })
       router.replace('/(main)/targets')
     },
     onError: (error: any) => {
-      showToast(error.message || 'Registration failed', 'error')
+      toast.show(error.message || 'Registration failed', {
+        theme: 'red',
+        duration: 3000
+      })
     },
     onSettled: () => {
       setLoading(false)
@@ -61,14 +73,20 @@ export const useAuth = () => {
     onSuccess: () => {
       logout()
       queryClient.clear() // Clear all cached data
-      showToast('Logged out successfully', 'success')
+      toast.show('Logged out successfully', {
+        theme: 'green',
+        duration: 3000
+      })
       router.replace('/(auth)/login')
     },
     onError: (error: any) => {
       // Even if logout API fails, we should still logout locally
       logout()
       queryClient.clear()
-      showToast('Logged out', 'info')
+      toast.show('Logged out', {
+        theme: 'blue',
+        duration: 3000
+      })
       router.replace('/(auth)/login')
     },
   })
@@ -81,10 +99,16 @@ export const useAuth = () => {
       return { success: true }
     },
     onSuccess: () => {
-      showToast('Password reset email sent!', 'success')
+      toast.show('Password reset email sent!', {
+        theme: 'green',
+        duration: 3000
+      })
     },
     onError: (error: any) => {
-      showToast(error.message || 'Failed to send reset email', 'error')
+      toast.show(error.message || 'Failed to send reset email', {
+        theme: 'red',
+        duration: 3000
+      })
     },
   })
 

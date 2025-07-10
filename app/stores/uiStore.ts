@@ -9,13 +9,6 @@ interface UIState {
   isModalOpen: boolean
   modalType: 'target' | 'request' | 'payment' | 'profile' | null
   
-  // Toast states
-  toast: {
-    visible: boolean
-    message: string
-    type: 'success' | 'error' | 'warning' | 'info'
-  }
-  
   // Navigation states
   activeTab: 'targets' | 'requests'
   
@@ -23,8 +16,6 @@ interface UIState {
   setLoading: (loading: boolean, message?: string) => void
   openModal: (type: 'target' | 'request' | 'payment' | 'profile') => void
   closeModal: () => void
-  showToast: (message: string, type?: 'success' | 'error' | 'warning' | 'info') => void
-  hideToast: () => void
   setActiveTab: (tab: 'targets' | 'requests') => void
 }
 
@@ -34,11 +25,6 @@ export const useUIStore = create<UIState>((set, get) => ({
   loadingMessage: '',
   isModalOpen: false,
   modalType: null,
-  toast: {
-    visible: false,
-    message: '',
-    type: 'info',
-  },
   activeTab: 'targets',
 
   // Actions
@@ -60,31 +46,6 @@ export const useUIStore = create<UIState>((set, get) => ({
     set({
       isModalOpen: false,
       modalType: null,
-    })
-  },
-
-  showToast: (message, type = 'info') => {
-    set({
-      toast: {
-        visible: true,
-        message,
-        type,
-      },
-    })
-    
-    // Auto hide after 3 seconds
-    setTimeout(() => {
-      get().hideToast()
-    }, 3000)
-  },
-
-  hideToast: () => {
-    set({
-      toast: {
-        visible: false,
-        message: '',
-        type: 'info',
-      },
     })
   },
 

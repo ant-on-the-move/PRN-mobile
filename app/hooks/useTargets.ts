@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { apiClient, API_ENDPOINTS } from '../services/api'
 import { mockApi } from '../services/mockApi'
 import { Target, CreateTargetRequest, ApiResponse, PaginatedResponse } from '../types'
-import { useUIStore } from '../stores/uiStore'
+import { useToastController } from '@tamagui/toast'
 
 // Query keys for targets
 export const targetKeys = {
@@ -14,7 +14,7 @@ export const targetKeys = {
 }
 
 export const useTargets = (filters?: any) => {
-  const { showToast } = useUIStore()
+  const toast = useToastController()
   const queryClient = useQueryClient()
 
   // Get targets list
@@ -50,10 +50,16 @@ export const useTargets = (filters?: any) => {
       queryClient.setQueryData(targetKeys.lists(), (oldData: Target[] | undefined) => {
         return oldData ? [newTarget, ...oldData] : [newTarget]
       })
-      showToast('Target created successfully!', 'success')
+      toast.show('Target created successfully!', {
+        theme: 'green',
+        duration: 3000
+      })
     },
     onError: (error: any) => {
-      showToast(error.message || 'Failed to create target', 'error')
+      toast.show(error.message || 'Failed to create target', {
+        theme: 'red',
+        duration: 3000
+      })
     },
   })
 
@@ -72,10 +78,16 @@ export const useTargets = (filters?: any) => {
           target.id === updatedTarget.id ? updatedTarget : target
         ) || [updatedTarget]
       })
-      showToast('Target updated successfully!', 'success')
+      toast.show('Target updated successfully!', {
+        theme: 'green',
+        duration: 3000
+      })
     },
     onError: (error: any) => {
-      showToast(error.message || 'Failed to update target', 'error')
+      toast.show(error.message || 'Failed to update target', {
+        theme: 'red',
+        duration: 3000
+      })
     },
   })
 
@@ -91,10 +103,16 @@ export const useTargets = (filters?: any) => {
         return oldData?.filter(target => target.id !== deletedId) || []
       })
       queryClient.removeQueries({ queryKey: targetKeys.detail(deletedId) })
-      showToast('Target deleted successfully!', 'success')
+      toast.show('Target deleted successfully!', {
+        theme: 'green',
+        duration: 3000
+      })
     },
     onError: (error: any) => {
-      showToast(error.message || 'Failed to delete target', 'error')
+      toast.show(error.message || 'Failed to delete target', {
+        theme: 'red',
+        duration: 3000
+      })
     },
   })
 

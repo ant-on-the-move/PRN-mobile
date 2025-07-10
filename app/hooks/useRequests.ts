@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { apiClient, API_ENDPOINTS } from '../services/api'
 import { Request, CreateRequestRequest, ApiResponse } from '../types'
-import { useUIStore } from '../stores/uiStore'
+import { useToastController } from '@tamagui/toast'
 
 // Query keys for requests
 export const requestKeys = {
@@ -13,7 +13,7 @@ export const requestKeys = {
 }
 
 export const useRequests = (filters?: any) => {
-  const { showToast } = useUIStore()
+  const toast = useToastController()
   const queryClient = useQueryClient()
 
   // Get requests list
@@ -53,10 +53,16 @@ export const useRequests = (filters?: any) => {
       queryClient.setQueryData(requestKeys.lists(), (oldData: Request[] | undefined) => {
         return oldData ? [newRequest, ...oldData] : [newRequest]
       })
-      showToast('Request created successfully!', 'success')
+      toast.show('Request created successfully!', {
+        theme: 'green',
+        duration: 3000
+      })
     },
     onError: (error: any) => {
-      showToast(error.response?.data?.message || 'Failed to create request', 'error')
+      toast.show(error.response?.data?.message || 'Failed to create request', {
+        theme: 'red',
+        duration: 3000
+      })
     },
   })
 
@@ -77,10 +83,16 @@ export const useRequests = (filters?: any) => {
           request.id === updatedRequest.id ? updatedRequest : request
         ) || [updatedRequest]
       })
-      showToast('Request status updated!', 'success')
+      toast.show('Request status updated!', {
+        theme: 'green',
+        duration: 3000
+      })
     },
     onError: (error: any) => {
-      showToast(error.response?.data?.message || 'Failed to update request', 'error')
+      toast.show(error.response?.data?.message || 'Failed to update request', {
+        theme: 'red',
+        duration: 3000
+      })
     },
   })
 
@@ -95,10 +107,16 @@ export const useRequests = (filters?: any) => {
         return oldData?.filter(request => request.id !== deletedId) || []
       })
       queryClient.removeQueries({ queryKey: requestKeys.detail(deletedId) })
-      showToast('Request deleted successfully!', 'success')
+      toast.show('Request deleted successfully!', {
+        theme: 'green',
+        duration: 3000
+      })
     },
     onError: (error: any) => {
-      showToast(error.response?.data?.message || 'Failed to delete request', 'error')
+      toast.show(error.response?.data?.message || 'Failed to delete request', {
+        theme: 'red',
+        duration: 3000
+      })
     },
   })
 

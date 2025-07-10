@@ -16,10 +16,10 @@ export {
   ErrorBoundary,
 } from 'expo-router'
 
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(auth)/login',
-}
+// export const unstable_settings = {
+//   // Ensure that reloading on `/modal` keeps a back button present.
+//   initialRouteName: '(auth)/login',
+// }
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -65,9 +65,9 @@ function RootLayoutNav() {
           initialRouteName={isAuthenticated ? '(main)' : '(auth)/login'} 
           screenOptions={{ headerShown: false }}
         >
-          <Stack.Screen name="(auth)" />
-          <Stack.Screen name="(main)" />
-          <Stack.Screen name="(dashboard)" />
+          <Stack.Screen name="/(auth)" />
+          <Stack.Screen name="/(main)" />
+          <Stack.Screen name="/(dashboard)" />
         </Stack>
       </SafeAreaView>
       <ToastComponent />
