@@ -29,7 +29,7 @@ export interface UserProfile extends User {
 export interface Target {
   id: string
   name: string
-  avatar: string
+  image_url: string
   profession: string
   tags: string[]
   bio: string
@@ -144,9 +144,8 @@ export interface VerifyEmailRequest {
 }
 
 export interface AuthResponse {
-  user: User
-  token: string
-  refreshToken: string
+  access_token: string
+  token_type: string                                                                   
 }
 
 // API Response Types

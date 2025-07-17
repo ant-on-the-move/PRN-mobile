@@ -68,6 +68,7 @@ export const API_ENDPOINTS = {
   CREATE_TARGET: '/targets',
   UPDATE_TARGET: (id: string) => `/targets/${id}`,
   DELETE_TARGET: (id: string) => `/targets/${id}`,
+  GET_TARGETS: (id: number) => `/api/request/targets/${id}`,
   
   // Requests
   REQUESTS: '/requests',
@@ -89,6 +90,10 @@ export const API_ENDPOINTS = {
   SEARCH: '/search',
   SEARCH_TARGETS: '/search/targets',
   SEARCH_REQUESTS: '/search/requests',
+
+  //Profile
+  GET_PROFILE: (id: number) => `/user/profile/${id}`,
+  
 } as const
 
 export default apiClient 

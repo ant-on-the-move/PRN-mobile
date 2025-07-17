@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuthStore } from '../stores/authStore'
 import { useToastController } from '@tamagui/toast'
 import { apiClient, API_ENDPOINTS } from '../services/api'
-import { mockApi } from '../services/mockApi'
 import { LoginRequest, RegisterRequest, AuthResponse, ApiResponse, VerifyEmailRequest } from '../types'
 import { useRouter } from 'expo-router'
 

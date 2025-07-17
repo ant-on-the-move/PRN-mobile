@@ -1,6 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { apiClient, API_ENDPOINTS } from '../services/api'
-import { mockApi } from '../services/mockApi'
 import { Target, CreateTargetRequest, ApiResponse, PaginatedResponse } from '../types'
 import { useToastController } from '@tamagui/toast'
 
@@ -18,11 +17,11 @@ export const useTargets = (filters?: any) => {
   const queryClient = useQueryClient()
 
   // Get targets list
-  const targetsQuery = useQuery({
+  const useGetTargets = (id: number) => useQuery({
     queryKey: targetKeys.list(filters),
     queryFn: async (): Promise<Target[]> => {
       // Use mock API for development
-      const response = await mockApi.getTargets()
+      const response = await apiClient.get(API_ENDPOINTS.GET_TARGETS(id))
       return response.data
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -33,7 +32,7 @@ export const useTargets = (filters?: any) => {
   const useTarget = (id: string) => useQuery({
     queryKey: targetKeys.detail(id),
     queryFn: async (): Promise<Target> => {
-      const response = await mockApi.getTarget(id)
+      const response = await apiClient.get(API_ENDPOINTS.GET_TARGETS(Number(id)))
       return response.data
     },
     enabled: !!id,
@@ -42,7 +41,7 @@ export const useTargets = (filters?: any) => {
   // Create target mutation
   const createTargetMutation = useMutation({
     mutationFn: async (targetData: CreateTargetRequest): Promise<Target> => {
-      const response = await mockApi.createTarget(targetData)
+      const response = await apiClient.post(API_ENDPOINTS.CREATE_TARGET, targetData)
       return response.data
     },
     onSuccess: (newTarget) => {
@@ -118,16 +117,18 @@ export const useTargets = (filters?: any) => {
 
   return {
     // Queries
-    targets: targetsQuery.data || [],
-    isLoading: targetsQuery.isLoading,
-    isError: targetsQuery.isError,
-    error: targetsQuery.error,
-    refetch: targetsQuery.refetch,
+    useGetTargets,
+    // targets: targetsQuery.data || [],
+    // isLoading: targetsQuery.isLoading,
+    // isError: targetsQuery.isError,
+    // error: targetsQuery.error,
+    // refetch: targetsQuery.refetch,
     
     // Mutations
     createTarget: createTargetMutation.mutate,
     updateTarget: updateTargetMutation.mutate,
     deleteTarget: deleteTargetMutation.mutate,
+
     
     // Mutation states
     isCreating: createTargetMutation.isPending,

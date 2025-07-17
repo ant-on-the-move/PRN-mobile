@@ -1,13 +1,22 @@
-import { TargetCard } from 'app/components/TargetCard'
 import { YStack, Text, Spinner } from 'tamagui'
 import { FlashList } from '@shopify/flash-list'
 import { StyleSheet } from 'react-native'
 import { useTargets } from '../hooks/useTargets'
 import { useUIStore } from '../stores/uiStore'
+import useAuthStore from 'app/stores/authStore'
+import TargetCard from 'app/components/TargetCard'
 
 export default function Targets() {
-    const { targets, isLoading, isError, error, refetch } = useTargets()
+    // const { access_token, isAuthenticated, userId } = useAuthStore()
+    const userId = useAuthStore(state => state.userId);
+    console.log('asdfadf', userId)
+    const { useGetTargets } = useTargets()
+    const { data: targets, isLoading, isError, error, refetch } = useGetTargets(Number(userId))
     const { activeTab } = useUIStore()
+
+    console.log('asdfadf', userId)
+
+    console.log('asdfadf', targets)
 
     if (isLoading) {
         return (
@@ -36,15 +45,15 @@ export default function Targets() {
         )
     }
 
-    if (targets.length === 0) {
-        return (
-            <YStack flex={1} style={{ justifyContent: 'center', alignItems: 'center' }} bg="#F8F9FA">
-                <Text color="#616B80" style={{ textAlign: 'center' }} px="$4">
-                    No targets found. Create your first target to get started!
-                </Text>
-            </YStack>
-        )
-    }
+    // if (targets.length === 0) {
+    //     return (
+    //         <YStack flex={1} style={{ justifyContent: 'center', alignItems: 'center' }} bg="#F8F9FA">
+    //             <Text color="#616B80" style={{ textAlign: 'center' }} px="$4">
+    //                 No targets found. Create your first target to get started!
+    //             </Text>
+    //         </YStack>
+    //     )
+    // }
 
     return (
         <YStack flex={1} px="$4" bg="#F8F9FA">
